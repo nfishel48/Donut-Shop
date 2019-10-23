@@ -15,9 +15,9 @@ public class Queue {
         head = tail = null;
     }
 
-    public Object firstEl() {
+    public QueueNode firstEl() {
 
-        return head.sTime;
+        return head;
     }
 
     public int firstwT() {
@@ -41,15 +41,23 @@ public class Queue {
         }//if the queue is empty insert object into the queue
         else head = tail = new QueueNode(0, getServiceTime(13));
     }
+    public void enqueueLow() {
+        if (!isEmpty()) {// if something is in queue put the new object in the back
+            tail.next = new QueueNode(0, getServiceTime(13));
+            tail = tail.next;
+        }//if the queue is empty insert object into the queue
+        else head = tail = new QueueNode(0, getServiceTime(4));
+    }
 
-    public int dequeue() {
-        if (!isEmpty()) {
-            int el = head.sTime;
-            if (head == tail)//only for single list
+    public void dequeue() {
+            if (head == tail) {//only for single list
                 head = tail = null;
-            else head = head.next;
-            return el;
-        } else return 0;
+            }
+            else {
+                head = head.next;
+            }
+
+
     }
 
     public int countEl() {
@@ -67,14 +75,45 @@ public class Queue {
     }
 
     public void wTimeIncrement(){
-        tail = head;
-        if(!isEmpty()){
-            while(head != null) {
-                head.wTime = head.wTime++;
-                head = head.next;
-            }
-            head = tail;
+       QueueNode c = head;
+       while(c != null){
+           c.wTime++;
+           c = c.next;
+       }
+    }
+
+    public int minWTime(){
+        QueueNode c = head;
+        int min = 100;
+        while(c != null){
+            if(c.wTime<min)
+                min = c.wTime;
+            c = c.next;
         }
+        return min;
+    }
+
+    public int maxWTime(){
+        QueueNode c = head;
+        int max = 0;
+        while(c != null){
+            if(c.wTime>max)
+                max = c.wTime;
+            c = c.next;
+        }
+        return max;
+    }
+
+    public int avgWTime(){
+        QueueNode c = head;
+        int total = 0;
+        while(c != null){
+           total = total + c.wTime;
+           c = c.next;
+        }
+        int d = countEl();
+        int avg = total/d;
+        return avg;
     }
 }
 

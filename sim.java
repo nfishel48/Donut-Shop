@@ -7,20 +7,9 @@ then        1. if a server is available it will take the customer out of the que
  */
 import java.util.*;
 public class sim {
-    public static double randomNum(){
-        Random random = new Random(97);
-        return random.nextDouble();
-    }
+  static int inService = 0;
+   static int completed = 0;
 
-
-    //used too generate a service time for customers
-   public static int getServiceTime(int i){
-        Random random = new Random(97);
-        int serviceTime = random.nextInt(i);
-        if(serviceTime == 0)// service time can not be 0;
-            serviceTime = serviceTime +1;
-        return serviceTime;
-    }
 
     private static int getPoissonRandom(double mean) {
         Random random = new Random();
@@ -35,47 +24,90 @@ public class sim {
         while (p > L);
         return k - 1;
     }
+    public static void heavyDemand(Queue q) {
+        //Add or remove servers here
+        QueueNode server0 = new QueueNode(0, 0);
+        QueueNode server1 = new QueueNode(0, 0);
 
-    public static void heavyDemand(Queue q){
-
-        int lwtime = 0;
-        for(int i = 0; i<=20; i++){//loop for 20 ticks, ticks = 1 min
+        for (int i = 0; i <= 20; i++) {//loop for 20 ticks, ticks = 1 min
             int cNum = getPoissonRandom(2);
-            System.out.println(cNum+" new customers have come into the store");
-            if (cNum > 0){// if new customers come in create new customer objects
-                for(int j = 0; j<=cNum; j++){
+            System.out.println(cNum + " new customers have come into the store");
+            if (cNum > 0) {// if new customers come in create new customer objects
+                for (int j = 0; j < cNum; j++) {
                     q.enqueue();//generates new customer objects and places them into the queue as well as generating service time.
                 }
             }
-            //Here is where you adjust the amount of servers for the experiment
-            q = server(q, i);
-            q = server(q, i);
-            q = server(q, i);
+
+            //set the server nodes equal to the work done by the method
+            server0 = doWork(server0, q, i);
+            server1 = doWork(server1, q, i);
+            q.wTimeIncrement();
+
+            //Print results
+            System.out.println("Tick #" + i);
+            System.out.println("Customers with completed service: " + completed);
+            System.out.println("Customers in queue " + q.countEl());
+            if(q.countEl() == 0){
+                System.out.println("Nobody is waiting");
+            }
+            else {
+                System.out.println("Minimum wait time " + q.minWTime());
+                System.out.println("Maximum wait time " + q.maxWTime());
+                System.out.println("Average wait time " + q.avgWTime());
+                System.out.println("========================");
+            }
+
+        }
+    }
+    public static void lightDemand(Queue q){
+        //Add or remove servers here
+        QueueNode server0 = new QueueNode(0,0);
+        QueueNode server1 = new QueueNode(0,0);
+
+        for(int i = 0; i<=20; i++){//loop for 20 ticks, ticks = 1 min
+            int cNum = getPoissonRandom(.25);
+            System.out.println(cNum+" new customers have come into the store");
+            if (cNum > 0){// if new customers come in create new customer objects
+                for(int j = 0; j<cNum; j++){
+                    q.enqueueLow();//generates new customer objects and places them into the queue as well as generating service time.
+                }
+            }
+
+            //set the server nodes equal to the work done by the method
+            server0 = doWork(server0, q, i);
+            server1 =  doWork(server1, q, i);
+            q.wTimeIncrement();
+
+            //Print results
+            System.out.println("Tick #"+i);
+            System.out.println("Customers with completed service: "+completed);
+            System.out.println("Customers in queue "+q.countEl());
+            System.out.println("Minimum wait time "+ q.minWTime());
+            System.out.println("Maximum wait time "+ q.maxWTime());
+            System.out.println("Average wait time "+ q.avgWTime());
+
+
             System.out.println("========================");
 
         }
     }
-    public static Queue server(Queue q, int i){//This method acts as the server and removes customers from the queue
-        int server = 1;
-        server--;
-        if(server == 0) {
+    public static QueueNode doWork(QueueNode server, Queue q, int i){//This method acts as the server and removes customers from the queue
+        if(server.sTime == 0) {
+            System.out.println("Server is open, Taking the first person from the queue ");
+            inService++;
+            server = q.firstEl();
             q.dequeue();
-            server =  q.dequeue();
-            q.wTimeIncrement();
-            System.out.println("Time passed:" +i+" mins Server is free, taking a new customer from the queue");
-            System.out.println("Time until Server is free: "+server);
-            System.out.println(q.countEl()+" customers left in the queue");
-            System.out.println();
-
+            server.sTime--;
+            if(server.sTime == 0)
+                completed++;
         }
         else {
-            q.wTimeIncrement();
-            System.out.println("Time passed:" +i+" mins Server occupied for "+server+" mins");
-            System.out.println(q.countEl()+" customers left in the queue ");
-            System.out.println();
-
+            System.out.println("Server is busy for "+server.sTime+" ticks");
+            server.sTime--;
+            if(server.sTime == 0)
+                completed++;
         }
-        return q;
+        return server;
     }
 
     public static void menu(){
@@ -92,8 +124,9 @@ public class sim {
                 break;
 
             case 2:
-                getPoissonRandom(.25);
-                getServiceTime(4);
+                Queue dQueue = new Queue();
+                lightDemand(dQueue);
+
 
         }
     }
