@@ -91,15 +91,19 @@ public class sim {
 
         }
     }
+
     public static QueueNode doWork(QueueNode server, Queue q, int i){//This method acts as the server and removes customers from the queue
         if(server.sTime == 0) {
-            System.out.println("Server is open, Taking the first person from the queue ");
-            inService++;
-            server = q.firstEl();
-            q.dequeue();
-            server.sTime--;
-            if(server.sTime == 0)
-                completed++;
+            if(q.firstEl() == null)
+                System.out.println("No customers in the queue Server is idle");
+            else {
+                System.out.println("Server is open, Taking the first person from the queue ");
+                inService++;
+                server = q.firstEl();
+                q.dequeue();
+            }
+
+
         }
         else {
             System.out.println("Server is busy for "+server.sTime+" ticks");

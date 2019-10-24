@@ -85,12 +85,16 @@ public class Queue {
     public int minWTime(){
         QueueNode c = head;
         int min = 100;
-        while(c != null){
-            if(c.wTime<min)
-                min = c.wTime;
-            c = c.next;
+        if(firstEl() == null)
+            return 0;
+        else {
+            while (c != null) {
+                if (c.wTime < min)
+                    min = c.wTime;
+                c = c.next;
+            }
+            return min;
         }
-        return min;
     }
 
     public int maxWTime(){
@@ -112,8 +116,12 @@ public class Queue {
            c = c.next;
         }
         int d = countEl();
-        int avg = total/d;
-        return avg;
+        if(d == 0)
+            return 0;
+        else {
+            int avg = total / d;
+            return avg;
+        }
     }
 }
 
