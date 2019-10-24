@@ -7,22 +7,21 @@ then        1. if a server is available it will take the customer out of the que
  */
 import java.util.*;
 public class sim {
-  static int inService = 0;
+   static int inService = 0;
    static int completed = 0;
+   static Random r = new Random(97);
 
 
     private static int getPoissonRandom(double mean) {
-        Random random = new Random();
-        double r = random.nextDouble();
-        double L = Math.exp(-mean);
-        int k = 0;
-        double p = 1.0;
-        do {
-            p = p * r;
-            k++;
-        }
-        while (p > L);
-        return k - 1;
+            double L = Math.exp(-mean);
+            int k = 0;
+            double p = 1.0;
+            do {
+                p = p * r.nextDouble();
+                k++;
+            }
+            while (p > L);
+            return k - 1;
     }
     public static void heavyDemand(Queue q) {
         //Add or remove servers here
@@ -63,9 +62,11 @@ public class sim {
         //Add or remove servers here
         QueueNode server0 = new QueueNode(0,0);
         QueueNode server1 = new QueueNode(0,0);
+        QueueNode server2 = new QueueNode(0,0);
+        QueueNode server3 = new QueueNode(0,0);
 
         for(int i = 0; i<=20; i++){//loop for 20 ticks, ticks = 1 min
-            int cNum = getPoissonRandom(.25);
+            int cNum = getPoissonRandom(2);
             System.out.println(cNum+" new customers have come into the store");
             if (cNum > 0){// if new customers come in create new customer objects
                 for(int j = 0; j<cNum; j++){
@@ -76,6 +77,8 @@ public class sim {
             //set the server nodes equal to the work done by the method
             server0 = doWork(server0, q, i);
             server1 =  doWork(server1, q, i);
+            server2 =  doWork(server2, q, i);
+            server3 =  doWork(server3, q, i);
             q.wTimeIncrement();
 
             //Print results

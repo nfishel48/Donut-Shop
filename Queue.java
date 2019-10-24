@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class Queue {
+public class Queue extends sim {
     private QueueNode head, tail;
 
     public Queue() {
@@ -20,15 +20,9 @@ public class Queue {
         return head;
     }
 
-    public int firstwT() {
-
-        return head.wTime;
-    }
-
     //used too generate a service time for customers
     public static int getServiceTime(int i) {
-        Random random = new Random();
-        int serviceTime = random.nextInt(i);
+        int serviceTime = r.nextInt(i);
         if (serviceTime == 0)// service time can not be 0;
             serviceTime = serviceTime + 1;
         return serviceTime;
