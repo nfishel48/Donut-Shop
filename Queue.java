@@ -37,7 +37,7 @@ public class Queue extends sim {
     }
     public void enqueueLow() {
         if (!isEmpty()) {// if something is in queue put the new object in the back
-            tail.next = new QueueNode(0, getServiceTime(13));
+            tail.next = new QueueNode(0, getServiceTime(4));
             tail = tail.next;
         }//if the queue is empty insert object into the queue
         else head = tail = new QueueNode(0, getServiceTime(4));

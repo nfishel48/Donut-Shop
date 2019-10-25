@@ -28,7 +28,7 @@ public class sim {
         QueueNode server0 = new QueueNode(0, 0);
         QueueNode server1 = new QueueNode(0, 0);
 
-        for (int i = 0; i <= 20; i++) {//loop for 20 ticks, ticks = 1 min
+        for (int i = 0; i <= 19; i++) {//loop for 20 ticks, ticks = 1 min
             int cNum = getPoissonRandom(2);
             if (cNum > 0) {// if new customers come in create new customer objects
                 for (int j = 0; j < cNum; j++) {
@@ -67,7 +67,7 @@ public class sim {
         QueueNode server2 = new QueueNode(0,0);
         QueueNode server3 = new QueueNode(0,0);
 
-        for(int i = 0; i<=20; i++){//loop for 20 ticks, ticks = 1 min
+        for(int i = 0; i<=19; i++){//loop for 20 ticks, ticks = 1 min
             int cNum = getPoissonRandom(2);
             if (cNum > 0){// if new customers come in create new customer objects
                 for(int j = 0; j<cNum; j++){
