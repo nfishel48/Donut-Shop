@@ -117,6 +117,16 @@ public class Queue extends sim {
             return avg;
         }
     }
+
+    public int totalWtiime(){
+        QueueNode c = head;
+        int total = 0;
+        while(c != null){
+            total = total + c.wTime;
+            c = c.next;
+        }
+        return total;
+    }
 }
 
 

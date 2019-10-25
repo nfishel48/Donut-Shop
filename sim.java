@@ -23,14 +23,13 @@ public class sim {
             while (p > L);
             return k - 1;
     }
-    public static void heavyDemand(Queue q) {
+     static void heavyDemand(Queue q) {
         //Add or remove servers here
         QueueNode server0 = new QueueNode(0, 0);
         QueueNode server1 = new QueueNode(0, 0);
 
         for (int i = 0; i <= 20; i++) {//loop for 20 ticks, ticks = 1 min
             int cNum = getPoissonRandom(2);
-            System.out.println(cNum + " new customers have come into the store");
             if (cNum > 0) {// if new customers come in create new customer objects
                 for (int j = 0; j < cNum; j++) {
                     q.enqueue();//generates new customer objects and places them into the queue as well as generating service time.
@@ -43,13 +42,16 @@ public class sim {
             q.wTimeIncrement();
 
             //Print results
+            System.out.println("========================");
             System.out.println("Tick #" + i);
+            System.out.println("Customers in service: "+inService);
             System.out.println("Customers with completed service: " + completed);
             System.out.println("Customers in queue " + q.countEl());
             if(q.countEl() == 0){
                 System.out.println("Nobody is waiting");
             }
             else {
+                System.out.println("Total wait time: "+ q.totalWtiime());
                 System.out.println("Minimum wait time " + q.minWTime());
                 System.out.println("Maximum wait time " + q.maxWTime());
                 System.out.println("Average wait time " + q.avgWTime());
@@ -58,7 +60,7 @@ public class sim {
 
         }
     }
-    public static void lightDemand(Queue q){
+     static void lightDemand(Queue q){
         //Add or remove servers here
         QueueNode server0 = new QueueNode(0,0);
         QueueNode server1 = new QueueNode(0,0);
@@ -67,7 +69,6 @@ public class sim {
 
         for(int i = 0; i<=20; i++){//loop for 20 ticks, ticks = 1 min
             int cNum = getPoissonRandom(2);
-            System.out.println(cNum+" new customers have come into the store");
             if (cNum > 0){// if new customers come in create new customer objects
                 for(int j = 0; j<cNum; j++){
                     q.enqueueLow();//generates new customer objects and places them into the queue as well as generating service time.
@@ -82,20 +83,27 @@ public class sim {
             q.wTimeIncrement();
 
             //Print results
-            System.out.println("Tick #"+i);
-            System.out.println("Customers with completed service: "+completed);
-            System.out.println("Customers in queue "+q.countEl());
-            System.out.println("Minimum wait time "+ q.minWTime());
-            System.out.println("Maximum wait time "+ q.maxWTime());
-            System.out.println("Average wait time "+ q.avgWTime());
-
-
             System.out.println("========================");
+            System.out.println("Tick #" + i);
+            System.out.println("Customers in service: "+inService);
+            System.out.println("Customers with completed service: " + completed);
+            System.out.println("Customers in queue " + q.countEl());
+            if(q.countEl() == 0){
+                System.out.println("Nobody is waiting");
+            }
+            else {
+                System.out.println("Total wait time: "+ q.totalWtiime());
+                System.out.println("Minimum wait time " + q.minWTime());
+                System.out.println("Maximum wait time " + q.maxWTime());
+                System.out.println("Average wait time " + q.avgWTime());
+                System.out.println("========================");
+            }
+
 
         }
     }
 
-    public static QueueNode doWork(QueueNode server, Queue q, int i){//This method acts as the server and removes customers from the queue
+     static QueueNode doWork(QueueNode server, Queue q, int i){//This method acts as the server and removes customers from the queue
         if(server.sTime == 0) {
             if(q.firstEl() == null)
                 System.out.println("No customers in the queue Server is idle");
@@ -111,13 +119,15 @@ public class sim {
         else {
             System.out.println("Server is busy for "+server.sTime+" ticks");
             server.sTime--;
-            if(server.sTime == 0)
+            if(server.sTime == 0) {
+                inService--;
                 completed++;
+            }
         }
         return server;
     }
 
-    public static void menu(){
+    static void menu(){
         System.out.println("Welcome to the simulation");
         System.out.println("Please select a option of how to run the simulation");
         System.out.println("1: Heavy Demand");
