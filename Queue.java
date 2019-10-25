@@ -11,9 +11,6 @@ public class Queue extends sim {
         return head == null;
     }
 
-    public void clear() {
-        head = tail = null;
-    }
 
     public QueueNode firstEl() {
 

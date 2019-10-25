@@ -1,10 +1,15 @@
 /*
 @author Nathaniel Fishel
+@assignment Project 1
+@semester Fall 2019
+@class COSC 311
+@professor Dr. Haynes
 @description This is the main class for the donut shop simulation. The program will first use a random number generator to calculate how many customers
 are coming into the shop. Then will see if there are any available servers/employees.
 then        1. if a server is available it will take the customer out of the queue
             2. else if no server is available the wait time will be adjusted for the customers in the queue.
  */
+
 import java.util.*;
 public class sim {
    static int inService = 0;
@@ -27,7 +32,12 @@ public class sim {
         //Add or remove servers here
         QueueNode server0 = new QueueNode(0, 0);
         QueueNode server1 = new QueueNode(0, 0);
-
+         QueueNode server2 = new QueueNode(0, 0);
+         QueueNode server3 = new QueueNode(0, 0);
+         QueueNode server4 = new QueueNode(0, 0);
+         QueueNode server5 = new QueueNode(0, 0);
+         QueueNode server6 = new QueueNode(0, 0);
+         QueueNode server7 = new QueueNode(0, 0);
         for (int i = 0; i <= 19; i++) {//loop for 20 ticks, ticks = 1 min
             int cNum = getPoissonRandom(2);
             if (cNum > 0) {// if new customers come in create new customer objects
@@ -39,6 +49,12 @@ public class sim {
             //set the server nodes equal to the work done by the method
             server0 = doWork(server0, q, i);
             server1 = doWork(server1, q, i);
+            server2 = doWork(server2, q, i);
+            server3 = doWork(server3, q, i);
+            server4 = doWork(server4, q, i);
+            server5 = doWork(server5, q, i);
+            server6 = doWork(server6, q, i);
+            server7 = doWork(server7, q, i);
             q.wTimeIncrement();
 
             //Print results
@@ -62,10 +78,14 @@ public class sim {
     }
      static void lightDemand(Queue q){
         //Add or remove servers here
-        QueueNode server0 = new QueueNode(0,0);
-        QueueNode server1 = new QueueNode(0,0);
-        QueueNode server2 = new QueueNode(0,0);
-        QueueNode server3 = new QueueNode(0,0);
+         QueueNode server0 = new QueueNode(0, 0);
+         QueueNode server1 = new QueueNode(0, 0);
+         QueueNode server2 = new QueueNode(0, 0);
+         QueueNode server3 = new QueueNode(0, 0);
+         QueueNode server4 = new QueueNode(0, 0);
+         QueueNode server5 = new QueueNode(0, 0);
+         QueueNode server6 = new QueueNode(0, 0);
+         QueueNode server7 = new QueueNode(0, 0);
 
         for(int i = 0; i<=19; i++){//loop for 20 ticks, ticks = 1 min
             int cNum = getPoissonRandom(2);
@@ -77,9 +97,13 @@ public class sim {
 
             //set the server nodes equal to the work done by the method
             server0 = doWork(server0, q, i);
-            server1 =  doWork(server1, q, i);
-            server2 =  doWork(server2, q, i);
-            server3 =  doWork(server3, q, i);
+            server1 = doWork(server1, q, i);
+            server2 = doWork(server2, q, i);
+            server3 = doWork(server3, q, i);
+            server4 = doWork(server4, q, i);
+            server5 = doWork(server5, q, i);
+            server6 = doWork(server6, q, i);
+            server7 = doWork(server7, q, i);
             q.wTimeIncrement();
 
             //Print results
