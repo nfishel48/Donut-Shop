@@ -1,4 +1,3 @@
-import java.util.Random;
 
 public class Queue extends sim {
     private QueueNode head, tail;

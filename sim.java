@@ -76,19 +76,20 @@ public class sim {
 
         }
     }
-     static void lightDemand(Queue q){
+
+     static void lightDemand(Queue q){//light demand
         //Add or remove servers here
          QueueNode server0 = new QueueNode(0, 0);
          QueueNode server1 = new QueueNode(0, 0);
          QueueNode server2 = new QueueNode(0, 0);
          QueueNode server3 = new QueueNode(0, 0);
-         QueueNode server4 = new QueueNode(0, 0);
-         QueueNode server5 = new QueueNode(0, 0);
-         QueueNode server6 = new QueueNode(0, 0);
-         QueueNode server7 = new QueueNode(0, 0);
+         //QueueNode server4 = new QueueNode(0, 0);
+         //QueueNode server5 = new QueueNode(0, 0);
+         //QueueNode server6 = new QueueNode(0, 0);
+         //QueueNode server7 = new QueueNode(0, 0);
 
         for(int i = 0; i<=19; i++){//loop for 20 ticks, ticks = 1 min
-            int cNum = getPoissonRandom(2);
+            int cNum = getPoissonRandom(.25);
             if (cNum > 0){// if new customers come in create new customer objects
                 for(int j = 0; j<cNum; j++){
                     q.enqueueLow();//generates new customer objects and places them into the queue as well as generating service time.
@@ -100,10 +101,10 @@ public class sim {
             server1 = doWork(server1, q, i);
             server2 = doWork(server2, q, i);
             server3 = doWork(server3, q, i);
-            server4 = doWork(server4, q, i);
-            server5 = doWork(server5, q, i);
-            server6 = doWork(server6, q, i);
-            server7 = doWork(server7, q, i);
+            //server4 = doWork(server4, q, i);
+            //server5 = doWork(server5, q, i);
+            //server6 = doWork(server6, q, i);
+            //server7 = doWork(server7, q, i);
             q.wTimeIncrement();
 
             //Print results
@@ -128,8 +129,8 @@ public class sim {
     }
 
      static QueueNode doWork(QueueNode server, Queue q, int i){//This method acts as the server and removes customers from the queue
-        if(server.sTime == 0) {
-            if(q.firstEl() == null)
+        if(server.sTime == 0) {//if the server is done with the customer
+            if(q.firstEl() == null)//if queue is empty
                 System.out.println("No customers in the queue Server is idle");
             else {
                 System.out.println("Server is open, Taking the first person from the queue ");
@@ -137,10 +138,8 @@ public class sim {
                 server = q.firstEl();
                 q.dequeue();
             }
-
-
         }
-        else {
+        else {//Server is busy
             System.out.println("Server is busy for "+server.sTime+" ticks");
             server.sTime--;
             if(server.sTime == 0) {
@@ -148,7 +147,7 @@ public class sim {
                 completed++;
             }
         }
-        return server;
+        return server;//update the server object
     }
 
     static void menu(){
